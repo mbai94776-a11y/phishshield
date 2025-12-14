@@ -1,0 +1,325 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PhishShield — Link Safety</title>
+
+  <!-- Google fonts + icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/8d8f3b6c2d.js" crossorigin="anonymous"></script>
+
+  <style>
+    :root{
+      --bg1:#0f1724; --bg2:#07102a;
+      --card:#0b1220; --muted:#99a0b3;
+      --accent:#22c55e; --warn:#ffb020; --danger:#ef4444;
+      --glass: rgba(255,255,255,0.03);
+      --radius: 16px;
+    }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#e6eef8;background: radial-gradient(1200px 600px at 10% 10%, rgba(56,189,248,0.06), transparent 8%), linear-gradient(180deg,var(--bg1),var(--bg2));-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:48px;}
+    .panel{width:100%;max-width:980px;display:grid;grid-template-columns: 1fr 420px;gap:28px;align-items:center}
+    /* left hero */
+    .hero{padding:36px;border-radius:var(--radius);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow: 0 6px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03);backdrop-filter: blur(6px);overflow:hidden;position:relative}
+    .logo{display:flex;gap:14px;align-items:center;margin-bottom:10px}
+    .logo .dot{width:54px;height:54px;border-radius:12px;background:linear-gradient(135deg,#06b6d4,#7c3aed);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:20px;box-shadow:0 6px 18px rgba(124,58,237,0.14);transform:translateY(-4px)}
+    .title{font-size:36px;font-weight:800;line-height:1;margin:6px 0 6px}
+    .subtitle{color:var(--muted);max-width:56ch;margin-bottom:18px}
+    .features{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+    .chip{padding:8px 12px;border-radius:999px;background:var(--glass);color:var(--muted);font-weight:600;font-size:13px;border:1px solid rgba(255,255,255,0.02)}
+    /* right card */
+    .card{padding:20px;border-radius:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015));border:1px solid rgba(255,255,255,0.03);box-shadow: 0 10px 30px rgba(2,6,23,0.6)}
+    .card h3{margin:0 0 8px;font-size:20px}
+    .input-wrap{display:flex;gap:10px;align-items:center}
+    input[type="text"]{flex:1;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#e8f0ff;font-size:15px;outline:none;box-shadow: inset 0 1px 0 rgba(255,255,255,0.01)}
+    input[type="text"]::placeholder{color:#9aa6bd}
+    button.scan{background:linear-gradient(180deg,#34d399,#10b981);border:none;padding:11px 18px;border-radius:10px;color:#09231a;font-weight:700;cursor:pointer;box-shadow:0 8px 18px rgba(16,185,129,0.12);transition:transform .14s ease, box-shadow .14s}
+    button.scan:active{transform:translateY(1px)}
+    .small{font-size:13px;color:var(--muted);margin-top:8px}
+    /* result */
+    .result{margin-top:18px;padding:14px;border-radius:12px;display:flex;gap:12px;align-items:center;min-height:68px}
+    .result.ok{background:linear-gradient(90deg, rgba(34,197,94,0.08), rgba(34,197,94,0.02));border-left:4px solid rgba(34,197,94,0.9);color:#cfffe2}
+    .result.warn{background:linear-gradient(90deg, rgba(255,176,32,0.06), rgba(255,176,32,0.01));border-left:4px solid rgba(255,176,32,0.9);color:#fff4e6}
+    .result.bad{background:linear-gradient(90deg, rgba(239,68,68,0.06), rgba(239,68,68,0.01));border-left:4px solid rgba(239,68,68,0.9);color:#ffecec}
+    .result .icon{font-size:22px;width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+    .reasons{font-size:14px;color:var(--muted)}
+    /* small animation */
+    .fade-in{animation:fadeInUp .6s ease both}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    /* animated shapes */
+    .shapes{position:absolute;right:-80px;top:-80px;pointer-events:none;opacity:0.06}
+    .shape{width:260px;height:260px;border-radius:20px;background:linear-gradient(135deg,#06b6d4,#7c3aed);filter:blur(40px)}
+    /* responsive */
+    @media (max-width:880px){.panel{grid-template-columns:1fr;}.shapes{display:none;margin-bottom:18px}.hero{order:2}.card{order:1}}
+    /* micro interactions */
+    .scan:active{transform:scale(.995)}
+    .tip{font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:center;margin-top:10px}
+    .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-weight:700}
+    footer{color:var(--muted);text-align:center;margin-top:26px;font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel">
+      <!-- LEFT: hero / explanation -->
+      <div class="hero fade-in" aria-hidden="false">
+        <div class="logo"><div class="dot">PS</div><div>
+          <div style="font-weight:700;color:#bfe9ff">PhishShield</div>
+          <div style="color:var(--muted);font-size:13px">Prototype • Link safety demo</div>
+        </div></div>
+
+        <h1 class="title">Make clicking safer — fast</h1>
+        <p class="subtitle">PhishShield flags suspicious/imposter links with a lightweight heuristic and integrates with threat APIs for production. This demo shows detection, results, and clear remediation suggestions.</p>
+
+        <div class="features">
+          <div class="chip">Client + API</div>
+          <div class="chip">Real-time preview</div>
+          <div class="chip">Lightweight heuristics</div>
+          <div class="chip">NGROK friendly</div>
+        </div>
+
+        <div style="margin-top:22px;display:flex;gap:12px;align-items:center">
+          <div class="badge">Project</div>
+          <div style="color:var(--muted);font-weight:600">Demo build • Polished UI</div>
+        </div>
+
+        <div class="shapes" aria-hidden="true"><div class="shape"></div></div>
+      </div>
+
+      <!-- RIGHT: interactive card -->
+      <div class="card fade-in" role="region" aria-label="Scan panel">
+        <h3>Link safety scanner</h3>
+        <div class="input-wrap" style="margin-top:6px">
+          <input id="url" type="text" inputmode="url" placeholder="https://example.com/login" aria-label="URL to scan">
+          <button class="scan" id="scanBtn" title="Scan link"><i class="fa-solid fa-magnifying-glass"></i> &nbsp; Scan</button>
+        </div>
+        <div class="small">Tip: paste a copied link. Try fake domains or shorteners like <code>bit.ly</code> to see detection.</div>
+
+        <div id="resultBox" class="result" style="display:none;margin-top:12px" role="status" aria-live="polite">
+          <div class="icon" id="resultIcon"></div>
+          <div>
+            <div id="resultTitle" style="font-weight:700"></div>
+            <div class="reasons" id="resultText"></div>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px">
+          <div class="tip"><i class="fa-regular fa-circle-question"></i><span style="color:var(--muted)">Uses local heuristics; can integrate VirusTotal/PhishTank APIs</span></div>
+          <div style="font-size:13px;color:var(--muted)">v0.1 • demo</div>
+        </div>
+
+        <footer>Made with ♥ — keep it ethical. Don’t scan private systems.</footer>
+      </div>
+    </div>
+  </div>
+
+  <!-- confetti canvas -->
+  <canvas id="confetti" style="position:fixed;left:0;top:0;pointer-events:none;z-index:9999"></canvas>
+
+<script>
+  // --- helper: basic confetti (tiny) ---
+  const confCanvas = document.getElementById('confetti');
+  const ctx = confCanvas.getContext && confCanvas.getContext('2d');
+  function resizeCanvas(){ confCanvas.width = innerWidth; confCanvas.height = innerHeight; }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  function burstConfetti(){
+    if(!ctx) return;
+    const pieces = [];
+    for(let i=0;i<60;i++){
+      pieces.push({
+        x: innerWidth/2 + (Math.random()-0.5)*200,
+        y: innerHeight/3,
+        vx: (Math.random()-0.5)*8,
+        vy: Math.random()*6+2,
+        r: Math.random()*6+4,
+        color: ['#34d399','#60a5fa','#f97316','#fb7185'][Math.floor(Math.random()*4)]
+      });
+    }
+    let t=0;
+    function step(){
+      ctx.clearRect(0,0,confCanvas.width,confCanvas.height);
+      for(const p of pieces){
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.2;
+        ctx.beginPath();
+        ctx.fillStyle = p.color;
+        ctx.ellipse(p.x, p.y, p.r, p.r*0.7, 0, 0, Math.PI*2);
+        ctx.fill();
+      }
+      t++;
+      if(t<140) requestAnimationFrame(step);
+      else ctx.clearRect(0,0,confCanvas.width,confCanvas.height);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // --- detection logic (tries API then fallback) ---
+  const scanBtn = document.getElementById('scanBtn');
+  const urlInput = document.getElementById('url');
+  const resultBox = document.getElementById('resultBox');
+  const resultIcon = document.getElementById('resultIcon');
+  const resultTitle = document.getElementById('resultTitle');
+  const resultText = document.getElementById('resultText');
+
+  async function callApi(url){
+    try{
+      const resp = await fetch('/api/check', {
+        method:'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({url})
+      });
+      if(!resp.ok) throw new Error('api non-ok');
+      return await resp.json();
+    }catch(e){
+      return null;
+    }
+  }
+
+  function fallbackCheck(url){
+    const reasons=[];
+    let suspicious=false;
+    if(url.length>180){ suspicious=true; reasons.push('URL unusually long'); }
+    if(url.includes('@')){ suspicious=true; reasons.push('Contains "@" (often hides domain)'); }
+    if((url.match(/-/g)||[]).length>5){ suspicious=true; reasons.push('Many hyphens — common in fake domains'); }
+    if(/bit\.ly|tinyurl|t\.co|short|goo\.gl/i.test(url)){ suspicious=true; reasons.push('Shortener used'); }
+    if(/\.tk|\.ml|\.ga|\.cf|\.gq/i.test(url)){ suspicious=true; reasons.push('Free/cheap TLD often abused'); }
+    if(/login|secure|update|account|verify|bank|paypal/i.test(url) && /\/$|login|\/signin|signin/.test(url)==false){ /* still flagged if keywords present */ suspicious=true; reasons.push('Suspicious keywords seen'); }
+    return {url, suspicious, reasons: reasons.length?reasons:['No major red flags detected.']};
+  }
+
+  function showResult(obj){
+    if(obj.suspicious){
+      resultBox.className = 'result bad fade-in';
+      resultIcon.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i>';
+      resultTitle.textContent = '⚠️ Suspicious link detected!';
+      resultText.innerHTML = obj.reasons.map(r=>`<div>• ${r}</div>`).join('');
+      burstConfetti(); // dramatic effect
+    } else {
+      resultBox.className = 'result ok fade-in';
+      resultIcon.innerHTML = '<i class="fa-solid fa-shield-halved" style="color:var(--accent)"></i>';
+      resultTitle.textContent = '✅ Looks safe (basic check)';
+      resultText.innerHTML = obj.reasons.map(r=>`<div>${r}</div>`).join('');
+    }
+    resultBox.style.display='flex';
+  }
+
+  async function scan(){
+    const url = (urlInput.value||'').trim();
+    if(!url){ urlInput.focus(); return; }
+    scanBtn.disabled = true;
+    scanBtn.style.opacity = .8;
+    scanBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> &nbsp; Scanning';
+    // try API first
+    const apiResp = await callApi(url);
+    const data = apiResp || fallbackCheck(url);
+    showResult(data);
+    scanBtn.disabled = false;
+    scanBtn.style.opacity = 1;
+    scanBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> &nbsp; Scan';
+  }
+
+  scanBtn.addEventListener('click', scan);
+  urlInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') scan(); });
+
+  // small nicety: prefill placeholder with current ngrok url when open in ngrok
+  (function tryPrefill(){
+    try{
+      const u = location.href;
+      if(u && u.includes('ngrok')) urlInput.value = u;
+    }catch(e){}
+  })();
+</script>
+
+</body>
+</html>

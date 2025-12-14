@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PhishShield | Advanced Phishing Detection</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: #0b0f14;
+    --card: #111827;
+    --accent: #22c55e;
+    --danger: #ef4444;
+    --warn: #facc15;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: linear-gradient(180deg, #0b0f14, #020617);
+    color: var(--text);
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 24px 60px;
+    position: sticky;
+    top: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.navbar a {
+    color: var(--muted);
+    margin-left: 30px;
+    text-decoration: none;
+}
+
+/* HERO */
+.hero {
+    padding: 120px 20px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 52px;
+    font-weight: 700;
+}
+
+.hero p {
+    margin-top: 18px;
+    font-size: 18px;
+    color: var(--muted);
+}
+
+/* SCAN */
+.scan-box {
+    margin: 50px auto;
+    max-width: 720px;
+    display: flex;
+    background: var(--card);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.scan-box input {
+    flex: 1;
+    padding: 20px;
+    font-size: 16px;
+    background: transparent;
+    border: none;
+    color: var(--text);
+}
+
+.scan-box button {
+    padding: 0 35px;
+    background: var(--accent);
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* RESULT */
+.result {
+    margin-top: 30px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* FEATURES */
+.features {
+    padding: 100px 60px;
+}
+
+.features h2 {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap: 30px;
+}
+
+.card {
+    background: var(--card);
+    padding: 30px;
+    border-radius: 16px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+}
+
+/* TEAM */
+.team {
+    padding: 100px 60px;
+    text-align: center;
+}
+
+.team-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.member {
+    background: var(--card);
+    padding: 20px 30px;
+    border-radius: 14px;
+    font-weight: 600;
+}
+
+/* FOOTER */
+footer {
+    padding: 40px;
+    text-align: center;
+    color: var(--muted);
+}
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">PhishShield</div>
+    <nav>
+        <a href="#scan">Scan</a>
+        <a href="#features">Features</a>
+        <a href="#team">Team</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Advanced Phishing Detection</h1>
+    <p>Luxury-grade cybersecurity that analyzes links intelligently.</p>
+
+    <div class="scan-box" id="scan">
+        <input id="urlInput" type="url" placeholder="Paste a URL to analyze…" />
+        <button onclick="scanURL()">Analyze</button>
+    </div>
+
+    <div id="result" class="result"></div>
+</section>
+
+<section class="features" id="features">
+    <h2>Why PhishShield?</h2>
+
+    <div class="feature-grid">
+        <div class="card">
+            <h3>Live URL Inspection</h3>
+            <p>Checks structure, domain age patterns, HTTPS and redirects.</p>
+        </div>
+
+        <div class="card">
+            <h3>Risk Scoring</h3>
+            <p>Smart logic instead of naive URL flagging.</p>
+        </div>
+
+        <div class="card">
+            <h3>User Safety</h3>
+            <p>No scripts executed. No credential access.</p>
+        </div>
+
+        <div class="card">
+            <h3>Enterprise Design</h3>
+            <p>Inspired by Mercedes, Porsche and Nike.</p>
+        </div>
+    </div>
+</section>
+
+<section class="team" id="team">
+    <h2>Our Team</h2>
+    <div class="team-grid">
+        <div class="member">Rahul</div>
+        <div class="member">Pranay</div>
+        <div class="member">Ranjitha</div>
+        <div class="member">Pratiksha</div>
+        <div class="member">Reshma</div>
+    </div>
+</section>
+
+<footer>
+    © 2025 PhishShield • Innovation & Design Thinking Project
+</footer>
+
+<script>
+function scanURL() {
+    const url = document.getElementById("urlInput").value.trim();
+    const result = document.getElementById("result");
+
+    if (!url) {
+        result.innerText = "Please enter a valid URL.";
+        return;
+    }
+
+    let score = 0;
+    let reasons = [];
+
+    if (!url.startsWith("https://")) {
+        score += 30;
+        reasons.push("No HTTPS encryption");
+    }
+
+    if (url.includes("@") || url.includes("//@")) {
+        score += 40;
+        reasons.push("Suspicious URL structure");
+    }
+
+    if (url.length > 75) {
+        score += 20;
+        reasons.push("Abnormally long URL");
+    }
+
+    if (url.match(/free|login|verify|secure|update|bank|account/i)) {
+        score += 30;
+        reasons.push("Phishing-related keywords detected");
+    }
+
+    let status = "SAFE";
+    let color = "var(--accent)";
+
+    if (score >= 60) {
+        status = "DANGEROUS";
+        color = "var(--danger)";
+    } else if (score >= 30) {
+        status = "CAUTION";
+        color = "var(--warn)";
+    }
+
+    result.style.color = color;
+    result.innerHTML = `
+        Status: ${status}<br>
+        Risk Score: ${score}/100<br>
+        ${reasons.length ? "Reasons: " + reasons.join(", ") : "No suspicious indicators found"}
+    `;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+body{margin:0;font-family:'Helvetica Neue',sans-serif;background:#0b0d10;color:#fff}
+header{text-align:center;padding:60px;background:linear-gradient(120deg,#0f2027,#203a43,#2c5364)}
+h1{font-size:3.5rem;letter-spacing:2px}
+.scanner{text-align:center;margin:60px}
+input{width:60%;padding:18px;border-radius:12px;border:none;font-size:1.1rem}
+button{padding:18px 30px;border-radius:12px;border:none;background:#00e5ff;color:#000;font-weight:600;cursor:pointer}
+button:hover{transform:scale(1.05)}
+.result{width:70%;margin:auto;background:#111827;padding:30px;border-radius:14px;box-shadow:0 0 30px rgba(0,229,255,.15)}
+footer{text-align:center;padding:30px;color:#9ca3af}
+.safe{color:#22c55e}
+.suspicious{color:#facc15}
+.dangerous{color:#ef4444}
+async function scan(){
+  const url = document.getElementById('url').value;
+  const res = await fetch('/scan',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({url})
+  });
+
+  const d = await res.json();
+  document.getElementById('result').innerHTML = `
+    <h2 class="${d.status.toLowerCase()}">${d.status}</h2>
+    <h3>Risk Score: ${d.score}/100</h3>
+    <ul>${d.details.map(x=>`<li>${x}</li>`).join('')}</ul>
+  `;
+}
+
