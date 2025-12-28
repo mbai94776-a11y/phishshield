@@ -1,45 +1,47 @@
-const scanBtn = document.querySelector("button");
-const input = document.querySelector("input");
+const scanBtn = document.getElementById("scanBtn");
+const input = document.getElementById("urlInput");
+const result = document.getElementById("result");
 
-scanBtn.addEventListener("click", () => {
+scanBtn.onclick = async () => {
     const url = input.value.trim();
+    if (!url) return alert("Enter URL");
 
-    if (!url) {
-        alert("Please enter a URL");
-        return;
-    }
+    result.innerHTML = "<div class='loader'></div>";
 
-    showLoading();
-    setTimeout(() => fakeScan(url), 2000);
-});
+    const res = await fetch("/scan", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({url})
+    });
 
-function showLoading() {
-    const result = document.getElementById("result");
+    const data = await res.json();
+
     result.innerHTML = `
-        <div class="loader"></div>
-        <p>Analyzing link safely...</p>
+      <div class="card ${data.label}">
+        <h2>${data.label}</h2>
+        <p>Risk Score: ${data.score}</p>
+        <button onclick='download(${JSON.stringify(data)}, "${url}")'>
+          Download Report
+        </button>
+      </div>
     `;
-    result.classList.add("show");
+};
+
+function download(data, url){
+    fetch("/report", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({...data, url})
+    })
+    .then(res=>res.blob())
+    .then(blob=>{
+        const a=document.createElement("a");
+        a.href=URL.createObjectURL(blob);
+        a.download="phishshield_report.pdf";
+        a.click();
+    });
 }
 
-function fakeScan(url) {
-    const score = Math.floor(Math.random() * 100);
-    let status = "SAFE";
-    let color = "safe";
-
-    if (score > 70) {
-        status = "DANGEROUS";
-        color = "danger";
-    } else if (score > 40) {
-        status = "CAUTION";
-        color = "warn";
-    }
-
-    document.getElementById("result").innerHTML = `
-        <div class="result-card ${color}">
-            <h2>${status}</h2>
-            <p>Risk Score: ${score}/100</p>
-            <small>Checked redirects, domain age, SSL & patterns</small>
-        </div>
-    `;
-}
+document.getElementById("themeToggle").onclick=()=>{
+    document.body.classList.toggle("light");
+};

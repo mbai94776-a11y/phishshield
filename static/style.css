@@ -1,163 +1,68 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    background: radial-gradient(circle at top, #0f172a, #020617);
-    color: #e5e7eb;
-    font-family: 'Segoe UI', sans-serif;
+  font-family: system-ui;
+  margin: 0;
+  background: #0b0b0f;
+  color: #e5e7eb;
+  transition: 0.3s;
 }
 
-/* NAVBAR */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px 40px;
-    border-bottom: 1px solid #1e293b;
+body.light {
+  background: #ffffff;
+  color: #111;
 }
 
-.logo {
-    font-size: 1.5rem;
-    color: #22d3ee;
-    font-weight: bold;
+header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 
-.nav-links a {
-    margin-left: 20px;
-    color: #cbd5f5;
-    text-decoration: none;
-}
-
-.nav-links a:hover {
-    color: #22d3ee;
-}
-
-/* HERO */
 .hero {
-    text-align: center;
-    padding: 120px 20px;
+  text-align: center;
+  margin-top: 60px;
 }
 
-.hero h1 {
-    font-size: 3rem;
-    color: #22d3ee;
+input {
+  padding: 14px;
+  width: 300px;
+  border-radius: 10px;
+  border: none;
 }
 
-.hero p {
-    margin-top: 15px;
-    color: #94a3b8;
+button {
+  padding: 14px 20px;
+  border-radius: 10px;
+  border: none;
+  background: #22d3ee;
+  cursor: pointer;
 }
 
-/* SCAN BOX */
-.scan-box {
-    margin-top: 40px;
+.loader {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #222;
+  border-top: 4px solid #22d3ee;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: auto;
 }
 
-.scan-box input {
-    width: 320px;
-    padding: 14px;
-    border-radius: 6px;
-    border: none;
-    outline: none;
-}
-
-.scan-box button {
-    padding: 14px 24px;
-    margin-left: 10px;
-    border: none;
-    background: #22d3ee;
-    color: #020617;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.scan-box button:hover {
-    background: #38bdf8;
-}
-
-/* FEATURES */
-.features {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 30px;
-    padding: 80px 40px;
-}
+@keyframes spin {100%{transform:rotate(360deg)}}
 
 .card {
-    background: #020617;
-    border: 1px solid #1e293b;
-    border-radius: 12px;
-    padding: 30px;
-    transition: transform 0.3s;
+  margin: 40px auto;
+  padding: 30px;
+  width: 300px;
+  border-radius: 16px;
+  text-align: center;
 }
 
-.card:hover {
-    transform: translateY(-8px);
-}
+.card.SAFE {border:2px solid #22c55e}
+.card.CAUTION {border:2px solid #eab308}
+.card.DANGEROUS {border:2px solid #ef4444}
 
-.card h3 {
-    color: #22d3ee;
-    margin-bottom: 10px;
+.team {
+  text-align: center;
+  margin-top: 80px;
+  opacity: 0.7;
 }
-
-/* FOOTER */
-footer {
-    text-align: center;
-    padding: 30px;
-    color: #64748b;
-    border-top: 1px solid #1e293b;
-}
-/* RESULT SECTION */
-.result {
-    text-align: center;
-    margin-top: 40px;
-    opacity: 0;
-    transition: opacity 0.5s;
-}
-
-.result.show {
-    opacity: 1;
-}
-
-/* LOADER */
-.loader {
-    width: 50px;
-    height: 50px;
-    border: 4px solid #1e293b;
-    border-top: 4px solid #22d3ee;
-    border-radius: 50%;
-    margin: 0 auto 20px;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    100% { transform: rotate(360deg); }
-}
-
-/* RESULT CARD */
-.result-card {
-    display: inline-block;
-    padding: 30px;
-    border-radius: 12px;
-    margin-top: 20px;
-    min-width: 260px;
-}
-
-.result-card.safe {
-    border: 2px solid #22c55e;
-    color: #22c55e;
-}
-
-.result-card.warn {
-    border: 2px solid #eab308;
-    color: #eab308;
-}
-
-.result-card.danger {
-    border: 2px solid #ef4444;
-    color: #ef4444;
-}
-

@@ -1,59 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>PhishShield</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<meta charset="UTF-8">
+<title>PhishShield</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="logo">PhishShield</div>
-        <div class="nav-links">
-            <a href="#scan">Scan</a>
-<div id="result" class="result"></div>
+<body class="dark">
+
+<header>
+  <h1>PhishShield</h1>
+  <button id="themeToggle">Toggle Mode</button>
+</header>
+
+<section class="hero">
+  <input id="urlInput" placeholder="Enter URL safely">
+  <button id="scanBtn">Scan Now</button>
+</section>
+
+<section id="result"></section>
+
+<section class="team">
+<h2>Our Team</h2>
+<p>Rahul • Pranay • Ranjitha • Pratiksha • Reshma</p>
+</section>
 
 <script src="{{ url_for('static', filename='app.js') }}"></script>
-
-            <a href="#features">Features</a>
-            <a href="#about">About</a>
-        </div>
-    </nav>
-
-    <!-- HERO -->
-    <section class="hero">
-        <h1>Advanced Phishing Detection</h1>
-        <p>Analyze links safely using multi-layer threat intelligence.</p>
-
-        <div class="scan-box" id="scan">
-            <input type="text" placeholder="Paste suspicious URL here">
-            <button>Scan URL</button>
-        </div>
-    </section>
-
-    <!-- FEATURES -->
-    <section class="features" id="features">
-        <div class="card">
-            <h3>Live Analysis</h3>
-            <p>Checks redirects, SSL, DNS & content behavior.</p>
-        </div>
-        <div class="card">
-            <h3>Risk Scoring</h3>
-            <p>Assigns confidence-based threat levels.</p>
-        </div>
-        <div class="card">
-            <h3>Safe Sandbox</h3>
-            <p>No real execution on user systems.</p>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <p>© 2025 PhishShield | Design Thinking Project</p>
-    </footer>
-
 </body>
 </html>
