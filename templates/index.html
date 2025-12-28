@@ -3,11 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>PhishShield</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>PhishShield is LIVE</h1>
-    <p>Your backend is working correctly.</p>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">PhishShield</div>
+        <div class="nav-links">
+            <a href="#scan">Scan</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <h1>Advanced Phishing Detection</h1>
+        <p>Analyze links safely using multi-layer threat intelligence.</p>
+
+        <div class="scan-box" id="scan">
+            <input type="text" placeholder="Paste suspicious URL here">
+            <button>Scan URL</button>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features" id="features">
+        <div class="card">
+            <h3>Live Analysis</h3>
+            <p>Checks redirects, SSL, DNS & content behavior.</p>
+        </div>
+        <div class="card">
+            <h3>Risk Scoring</h3>
+            <p>Assigns confidence-based threat levels.</p>
+        </div>
+        <div class="card">
+            <h3>Safe Sandbox</h3>
+            <p>No real execution on user systems.</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2025 PhishShield | Design Thinking Project</p>
+    </footer>
+
 </body>
 </html>
-
