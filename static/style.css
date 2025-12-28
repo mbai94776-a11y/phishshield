@@ -110,3 +110,54 @@ footer {
     color: #64748b;
     border-top: 1px solid #1e293b;
 }
+/* RESULT SECTION */
+.result {
+    text-align: center;
+    margin-top: 40px;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.result.show {
+    opacity: 1;
+}
+
+/* LOADER */
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #1e293b;
+    border-top: 4px solid #22d3ee;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+/* RESULT CARD */
+.result-card {
+    display: inline-block;
+    padding: 30px;
+    border-radius: 12px;
+    margin-top: 20px;
+    min-width: 260px;
+}
+
+.result-card.safe {
+    border: 2px solid #22c55e;
+    color: #22c55e;
+}
+
+.result-card.warn {
+    border: 2px solid #eab308;
+    color: #eab308;
+}
+
+.result-card.danger {
+    border: 2px solid #ef4444;
+    color: #ef4444;
+}
+
