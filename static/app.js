@@ -45,3 +45,10 @@ function download(data, url){
 document.getElementById("themeToggle").onclick=()=>{
     document.body.classList.toggle("light");
 };
+document.querySelectorAll(".accordion-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const content = btn.nextElementSibling;
+    content.style.maxHeight =
+      content.style.maxHeight ? null : content.scrollHeight + "px";
+  });
+});
