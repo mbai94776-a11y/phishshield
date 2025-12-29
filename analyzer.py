@@ -1,68 +1,47 @@
-import requests
 import whois
-from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 from datetime import datetime
 
 def analyze_url(url):
     findings = []
+    score = 0
 
-    # Normalize URL
     if not url.startswith(("http://", "https://")):
         url = "http://" + url
 
     parsed = urlparse(url)
+    hostname = parsed.hostname
 
-    # HTTPS check
+    # HTTPS
     if not url.startswith("https://"):
         findings.append("No HTTPS encryption")
+        score += 20
 
     # IP-based URL
-    if parsed.hostname.replace('.', '').isdigit():
+    if hostname.replace(".", "").isdigit():
         findings.append("IP-based URL detected")
+        score += 30
+
+    # Suspicious keywords
+    suspicious_words = ["login", "verify", "secure", "update", "account"]
+    for word in suspicious_words:
+        if word in url.lower():
+            findings.append(f"Suspicious keyword in URL: {word}")
+            score += 10
 
     # Domain age
     try:
-        domain_info = whois.whois(parsed.hostname)
-        creation_date = domain_info.creation_date
-        if isinstance(creation_date, list):
-            creation_date = creation_date[0]
-        age_days = (datetime.now() - creation_date).days
+        domain_info = whois.whois(hostname)
+        created = domain_info.creation_date
+        if isinstance(created, list):
+            created = created[0]
+        age_days = (datetime.now() - created).days
         if age_days < 180:
-            findings.append("Domain is newly registered")
+            findings.append("Domain recently registered")
+            score += 25
     except:
-        findings.append("Unable to verify domain age")
-
-    # HTTP content analysis
-    try:
-        r = requests.get(url, timeout=5)
-        soup = BeautifulSoup(r.text, "html.parser")
-
-        if soup.find("input", {"type": "password"}):
-            findings.append("Login form detected")
-
-        if len(soup.find_all("iframe")) > 0:
-            findings.append("iFrame usage detected")
-
-        external_scripts = [
-            s for s in soup.find_all("script", src=True)
-            if parsed.hostname not in s["src"]
-        ]
-        if len(external_scripts) > 5:
-            findings.append("Excessive external scripts")
-
-    except:
-        findings.append("Site content could not be analyzed")
-
-    # Risk scoring
-    score = 0
-    for f in findings:
-        if "No HTTPS" in f: score += 20
-        if "IP-based" in f: score += 30
-        if "newly registered" in f: score += 25
-        if "Login form" in f: score += 15
-        if "iFrame" in f: score += 10
-        if "external scripts" in f: score += 10
+        findings.append("Domain age could not be verified")
+        score += 10
 
     score = min(score, 100)
 
@@ -78,3 +57,4 @@ def analyze_url(url):
         "verdict": verdict,
         "findings": findings
     }
+

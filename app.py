@@ -18,12 +18,22 @@ def scan():
     last_result = result
     return jsonify(result)
 
+from flask import send_file
+
 @app.route("/download")
 def download():
+    global last_result
     if not last_result:
         return "No report available", 400
-    path = generate_pdf(last_result)
-    return send_file(path, as_attachment=True)
+
+    pdf_buffer = generate_pdf(last_result)
+    return send_file(
+        pdf_buffer,
+        mimetype="application/pdf",
+        as_attachment=True,
+        download_name="phishshield_report.pdf"
+    )
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

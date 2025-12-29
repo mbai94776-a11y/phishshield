@@ -1,6 +1,6 @@
 from fpdf import FPDF
 from datetime import datetime
-import os
+from io import BytesIO
 
 def generate_pdf(result):
     pdf = FPDF()
@@ -10,7 +10,7 @@ def generate_pdf(result):
     pdf.cell(0, 10, "PhishShield Security Report", ln=True)
 
     pdf.set_font("Arial", size=12)
-    pdf.cell(0, 8, f"Scanned URL: {result['url']}", ln=True)
+    pdf.cell(0, 8, f"URL: {result['url']}", ln=True)
     pdf.cell(0, 8, f"Scan Time: {datetime.now()}", ln=True)
     pdf.ln(5)
 
@@ -20,18 +20,14 @@ def generate_pdf(result):
     pdf.ln(5)
 
     pdf.set_font("Arial", "B", 12)
-    pdf.cell(0, 8, "Detected Issues:", ln=True)
+    pdf.cell(0, 8, "Detected Indicators:", ln=True)
 
     pdf.set_font("Arial", size=11)
-    if result["findings"]:
-        for f in result["findings"]:
-            pdf.cell(0, 7, f"- {f}", ln=True)
-    else:
-        pdf.cell(0, 7, "- No suspicious indicators detected", ln=True)
+    for f in result["findings"]:
+        pdf.cell(0, 7, f"- {f}", ln=True)
 
-    os.makedirs("reports", exist_ok=True)
-    path = f"reports/phishshield_report.pdf"
-    pdf.output(path)
+    buffer = BytesIO()
+    pdf.output(buffer)
+    buffer.seek(0)
 
-    return path
-
+    return buffer
