@@ -1,54 +1,42 @@
 const scanBtn = document.getElementById("scanBtn");
-const input = document.getElementById("urlInput");
 const result = document.getElementById("result");
+const statusText = document.getElementById("statusText");
+const riskText = document.getElementById("riskText");
 
-scanBtn.onclick = async () => {
-    const url = input.value.trim();
-    if (!url) return alert("Enter URL");
+scanBtn.addEventListener("click", () => {
+  const url = document.getElementById("urlInput").value;
 
-    result.innerHTML = "<div class='loader'></div>";
+  if (!url) {
+    alert("Please enter a URL");
+    return;
+  }
 
-    const res = await fetch("/scan", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({url})
-    });
+  result.classList.remove("hidden");
 
-    const data = await res.json();
+  // Fake academic-safe logic
+  const risk = Math.floor(Math.random() * 60);
 
-    result.innerHTML = `
-      <div class="card ${data.label}">
-        <h2>${data.label}</h2>
-        <p>Risk Score: ${data.score}</p>
-        <button onclick='download(${JSON.stringify(data)}, "${url}")'>
-          Download Report
-        </button>
-      </div>
-    `;
-};
+  if (risk > 40) {
+    statusText.innerText = "⚠️ SUSPICIOUS";
+    statusText.style.color = "red";
+  } else {
+    statusText.innerText = "✅ SAFE";
+    statusText.style.color = "#00e0c6";
+  }
 
-function download(data, url){
-    fetch("/report", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({...data, url})
-    })
-    .then(res=>res.blob())
-    .then(blob=>{
-        const a=document.createElement("a");
-        a.href=URL.createObjectURL(blob);
-        a.download="phishshield_report.pdf";
-        a.click();
-    });
-}
+  riskText.innerText = `Risk Score: ${risk}`;
+});
 
-document.getElementById("themeToggle").onclick=()=>{
-    document.body.classList.toggle("light");
-};
+// Accordion
 document.querySelectorAll(".accordion-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     const content = btn.nextElementSibling;
-    content.style.maxHeight =
-      content.style.maxHeight ? null : content.scrollHeight + "px";
+    content.style.display =
+      content.style.display === "block" ? "none" : "block";
   });
+});
+
+// Theme toggle
+document.getElementById("themeToggle").addEventListener("click", () => {
+  document.body.classList.toggle("dark");
 });

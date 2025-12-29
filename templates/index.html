@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>PhishShield</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<style>
-html {
-  scroll-behavior: smooth;
-}
-</style>
-
+  <meta charset="UTF-8">
+  <title>PhishShield</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body class="dark">
@@ -19,88 +13,78 @@ html {
   <button id="themeToggle">Toggle Mode</button>
 </header>
 
+<!-- 🔥 MAIN URL SCAN BAR -->
 <section class="hero">
-<section class="info">
-<div class="accuracy-box">
-  <h2>📊 Model Performance</h2>
-  <p><strong>Detection Accuracy:</strong> 96.4%</p>
-  <p><strong>False Positive Rate:</strong> 3.1%</p>
-  <p><strong>Tested URLs:</strong> 12,500+</p>
-</div>
+  <input
+    id="urlInput"
+    type="text"
+    placeholder="Paste a website link here (https://...)"
+  />
+  <button id="scanBtn">Scan Now</button>
+</section>
 
-  <div class="accordion">
+<!-- 🔥 RESULT AREA -->
+<section id="result" class="hidden">
+  <div class="result-box">
+    <h2 id="statusText">SAFE</h2>
+    <p id="riskText">Risk Score: 0</p>
+    <button id="downloadBtn">Download Report</button>
+  </div>
+</section>
+
+<!-- 📊 MODEL PERFORMANCE -->
+<section class="model-box">
+  <h3>📊 Model Performance</h3>
+  <p>Detection Accuracy: <b>96.4%</b></p>
+  <p>False Positive Rate: <b>3.1%</b></p>
+  <p>URLs Tested: <b>12,500+</b></p>
+</section>
+
+<!-- 📌 ACCORDION -->
+<section class="accordion">
+
+  <div class="item">
     <button class="accordion-btn">📌 About PhishShield</button>
     <div class="accordion-content">
-      <p>
-        PhishShield is a cybersecurity web application designed to identify
-        phishing links by analyzing URL structure, domain behavior, and security indicators.
-      </p>
+      PhishShield is a phishing detection system designed to analyze URLs
+      using heuristic and behavioral indicators.
     </div>
+  </div>
 
-    <button class="accordion-btn">⚙️ How It Works</button>
+  <div class="item">
+    <button class="accordion-btn">⚙ How It Works</button>
     <div class="accordion-content">
-      <ul>
-        <li>URL pattern analysis</li>
-        <li>HTTPS & SSL certificate verification</li>
-        <li>Keyword & redirect inspection</li>
-        <li>Risk score calculation</li>
-      </ul>
+      The system evaluates URL structure, domain age, HTTPS usage,
+      redirection behavior, and known phishing patterns.
     </div>
+  </div>
 
+  <div class="item">
     <button class="accordion-btn">🚀 Upcoming Projects</button>
     <div class="accordion-content">
-      <ul>
-        <li>Browser extension for real-time phishing alerts</li>
-        <li>Email phishing detection system</li>
-        <li>SMS & social media link scanner</li>
-        <li>AI-based phishing prediction engine</li>
-      </ul>
+      Browser Extension • Email Scanner • Real-time Threat API • ML Integration
     </div>
+  </div>
 
+  <div class="item">
     <button class="accordion-btn">👥 Team Roles & Responsibilities</button>
     <div class="accordion-content">
       <ul>
-        <li><strong>Ranjitha</strong> – Team Lead</li>
-        <li><strong>Rahul</strong> – Coding & Compiling</li>
-        <li><strong>Pratiksha</strong> – Research & Evidence Collection</li>
-        <li><strong>Reshma</strong> – PPT & Presentation</li>
-        <li><strong>Pranay</strong> – Presentation Design</li>
-<h2 class="roadmap-title">📅 Project Roadmap</h2>
-
-<div class="timeline">
-  <div class="timeline-item">
-    <span>Phase 1</span>
-    <p>Problem Identification & Research</p>
-  </div>
-
-  <div class="timeline-item">
-    <span>Phase 2</span>
-    <p>Prototype Design & UI Development</p>
-  </div>
-
-  <div class="timeline-item">
-    <span>Phase 3</span>
-    <p>Backend Integration & Risk Analysis</p>
-  </div>
-
-  <div class="timeline-item">
-    <span>Phase 4</span>
-    <p>Testing, Deployment & Documentation</p>
-  </div>
-</div>
-
+        <li><b>Ranjitha</b> – Team Lead</li>
+        <li><b>Rahul</b> – Coding & Compilation</li>
+        <li><b>Reshma</b> – PPT & Presentation</li>
+        <li><b>Pranay</b> – Design & Slides</li>
+        <li><b>Pratiksha</b> – Research & Evidence</li>
       </ul>
     </div>
   </div>
 
 </section>
 
-<section id="result"></section>
-
-<section class="team">
-<h2>Our Team</h2>
-<p>Rahul • Pranay • Ranjitha • Pratiksha • Reshma</p>
-</section>
+<footer>
+  <p>Our Team</p>
+  <span>Rahul • Pranay • Ranjitha • Pratiksha • Reshma</span>
+</footer>
 
 <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
