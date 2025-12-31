@@ -3,88 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <title>PhishShield</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
-<body class="dark">
+<body>
 
 <header>
   <h1>PhishShield</h1>
-  <button id="themeToggle">Toggle Mode</button>
+  <p class="tagline">Explainable Phishing Detection System</p>
 </header>
 
-<!-- 🔥 MAIN URL SCAN BAR -->
-<section class="hero">
-  <input
-    id="urlInput"
-    type="text"
-    placeholder="Paste a website link here (https://...)"
-  />
-  <button id="scanBtn">Scan Now</button>
+<section class="scan-section">
+  <input id="urlInput" placeholder="Enter a website link to analyze">
+  <button id="scanBtn">Analyze Link</button>
 </section>
 
-<!-- 🔥 RESULT AREA -->
-<section id="result" class="hidden">
-  <div class="result-box">
-    <h2 id="statusText">SAFE</h2>
-    <p id="riskText">Risk Score: 0</p>
-    <button id="downloadBtn">Download Report</button>
-  </div>
+<section id="result" class="result hidden"></section>
+
+<section class="info">
+  <h2>About the Project</h2>
+  <p>
+    PhishShield is an academic cybersecurity project developed to identify
+    potentially malicious links using rule-based, explainable analysis.
+    The system focuses on transparency rather than black-box machine learning.
+  </p>
+
+  <h2>How PhishShield Works</h2>
+  <ul>
+    <li>Checks HTTPS encryption</li>
+    <li>Detects IP-based URLs</li>
+    <li>Identifies suspicious keywords</li>
+    <li>Analyzes domain age using WHOIS data</li>
+    <li>Generates a deterministic risk score</li>
+  </ul>
+
+  <h2>Team Roles & Responsibilities</h2>
+  <ul>
+    <li><strong>Ranjitha</strong> – Team Lead</li>
+    <li><strong>Rahul</strong> – Coding and Compilation</li>
+    <li><strong>Pratiksha</strong> – Research & Problem Identification</li>
+    <li><strong>Reshma</strong> – PPT and Presentation</li>
+    <li><strong>Pranay</strong> – Presentation Design</li>
+  </ul>
+
+  <h2>Future Scope</h2>
+  <ul>
+    <li>Browser extension for real-time protection</li>
+    <li>Email phishing detection module</li>
+    <li>Machine learning-based risk refinement</li>
+    <li>Threat intelligence integration</li>
+  </ul>
+
+  <p class="disclaimer">
+    This project is developed strictly for academic and educational purposes.
+  </p>
 </section>
-
-<!-- 📊 MODEL PERFORMANCE -->
-<section class="model-box">
-  <h3>📊 Model Performance</h3>
-  <p>Detection Accuracy: <b>96.4%</b></p>
-  <p>False Positive Rate: <b>3.1%</b></p>
-  <p>URLs Tested: <b>12,500+</b></p>
-</section>
-
-<!-- 📌 ACCORDION -->
-<section class="accordion">
-
-  <div class="item">
-    <button class="accordion-btn">📌 About PhishShield</button>
-    <div class="accordion-content">
-      PhishShield is a phishing detection system designed to analyze URLs
-      using heuristic and behavioral indicators.
-    </div>
-  </div>
-
-  <div class="item">
-    <button class="accordion-btn">⚙ How It Works</button>
-    <div class="accordion-content">
-      The system evaluates URL structure, domain age, HTTPS usage,
-      redirection behavior, and known phishing patterns.
-    </div>
-  </div>
-
-  <div class="item">
-    <button class="accordion-btn">🚀 Upcoming Projects</button>
-    <div class="accordion-content">
-      Browser Extension • Email Scanner • Real-time Threat API • ML Integration
-    </div>
-  </div>
-
-  <div class="item">
-    <button class="accordion-btn">👥 Team Roles & Responsibilities</button>
-    <div class="accordion-content">
-      <ul>
-        <li><b>Ranjitha</b> – Team Lead</li>
-        <li><b>Rahul</b> – Coding & Compilation</li>
-        <li><b>Reshma</b> – PPT & Presentation</li>
-        <li><b>Pranay</b> – Design & Slides</li>
-        <li><b>Pratiksha</b> – Research & Evidence</li>
-      </ul>
-    </div>
-  </div>
-
-</section>
-
-<footer>
-  <p>Our Team</p>
-  <span>Rahul • Pranay • Ranjitha • Pratiksha • Reshma</span>
-</footer>
 
 <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>

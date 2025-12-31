@@ -1,6 +1,2 @@
-flask
-requests
-beautifulsoup4
-python-whois
-fpdf
-
+flask==3.0.0
+python-whois==0.9.5

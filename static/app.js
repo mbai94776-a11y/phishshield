@@ -1,44 +1,30 @@
-let lastResult = null;
+const scanBtn = document.getElementById("scanBtn");
+const resultBox = document.getElementById("result");
 
-document.getElementById("scanBtn").addEventListener("click", async () => {
-    const url = document.getElementById("urlInput").value;
-    if (!url) return alert("Enter a URL");
+scanBtn.addEventListener("click", async () => {
+  const url = document.getElementById("urlInput").value.trim();
+  if (!url) {
+    alert("Please enter a URL");
+    return;
+  }
 
-    document.getElementById("result").innerHTML = "Scanning...";
-    
-    const res = await fetch("/scan", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url })
-    });
+  resultBox.classList.add("hidden");
 
-    const data = await res.json();
-    lastResult = data;
+  const res = await fetch("/scan", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url })
+  });
 
-    document.getElementById("result").innerHTML = `
-        <div class="card ${data.verdict.toLowerCase()}">
-            <h3>${data.verdict}</h3>
-            <p>Risk Score: ${data.score}</p>
-            <button id="downloadBtn">Download Report</button>
-        </div>
-    `;
+  const data = await res.json();
 
-    document.getElementById("downloadBtn").onclick = downloadReport;
+  resultBox.innerHTML = `
+    <h3>${data.verdict} (${data.score}/100)</h3>
+    <p><strong>Why this link is flagged:</strong></p>
+    <ul>
+      ${data.reasons.map(r => `<li>${r}</li>`).join("")}
+    </ul>
+  `;
+
+  resultBox.classList.remove("hidden");
 });
-
-async function downloadReport() {
-    if (!lastResult) return alert("No scan data");
-
-    const res = await fetch("/download", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(lastResult)
-    });
-
-    const blob = await res.blob();
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "phishshield_report.pdf";
-    a.click();
-}
